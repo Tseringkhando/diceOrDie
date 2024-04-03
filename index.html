@@ -4,6 +4,7 @@
  -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,21 +12,24 @@
     <link rel="icon" type="image/x-icon" href="dice1.png">
     <!--CSS starts-->
     <style>
-        body{
+        body {
             background: #161515;
             color: #fff;
         }
+
         #diceContainer {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
         }
+
         .dice {
             width: 100px;
             height: 100px;
             margin: 10px;
         }
+
         #rollButton {
             background: #a3a3a3;
             width: 100px;
@@ -37,15 +41,18 @@
             margin: 20px auto;
             cursor: pointer;
         }
-        #rollButton:hover{
+
+        #rollButton:hover {
             background: #ececec;
             color: #161515;
         }
+
         #scores {
             text-align: center;
             margin-top: 20px;
         }
-        #winBoard{
+
+        #winBoard {
             text-align: center;
             background: #a00000;
             color: #fff;
@@ -53,6 +60,7 @@
     </style>
     <!-- CSS ends -->
 </head>
+
 <body>
     <!-- container with dice images -->
     <div id="diceContainer">
@@ -73,32 +81,37 @@
 
     <!-- JS starts -->
     <script>
-        
+        var gameOver = false; // check if the game is over
         const winScore = 9; // the winning point would be 9 in this game
         function rollDice() {
-            var dice1Value = Math.floor(Math.random() * 6) + 1;
-            var dice2Value = Math.floor(Math.random() * 6) + 1;
-            // dice image will be displayed according to the dice value
-            document.getElementById('player1Dice').src = 'dice' + dice1Value + '.png';
-            document.getElementById('player2Dice').src = 'dice' + dice2Value + '.png';
+            if (!gameOver) {
+                var dice1Value = Math.floor(Math.random() * 6) + 1;
+                var dice2Value = Math.floor(Math.random() * 6) + 1;
+                // dice image will be displayed according to the dice value
+                document.getElementById('player1Dice').src = 'dice' + dice1Value + '.png';
+                document.getElementById('player2Dice').src = 'dice' + dice2Value + '.png';
 
-            var player1Score = parseInt(document.getElementById('player1Score').textContent);
-            var player2Score = parseInt(document.getElementById('player2Score').textContent);
+                var player1Score = parseInt(document.getElementById('player1Score').textContent);
+                var player2Score = parseInt(document.getElementById('player2Score').textContent);
 
-            // each player's score will be calculated
-            var scoreDifference = Math.abs(dice1Value - dice2Value);
-            if (dice1Value > dice2Value) {
-                player1Score += scoreDifference;
-                player2Score -= scoreDifference;
-            } else if (dice2Value > dice1Value) {
-                player2Score += scoreDifference;
-                player1Score -= scoreDifference;
+                // each player's score will be calculated
+                var scoreDifference = Math.abs(dice1Value - dice2Value);
+                if (dice1Value > dice2Value) {
+                    player1Score += scoreDifference;
+                    player2Score -= scoreDifference;
+                } else if (dice2Value > dice1Value) {
+                    player2Score += scoreDifference;
+                    player1Score -= scoreDifference;
+                }
+
+                document.getElementById('player1Score').textContent = player1Score;
+                document.getElementById('player2Score').textContent = player2Score;
+
+                checkWinner(player1Score, player2Score);
             }
-
-            document.getElementById('player1Score').textContent = player1Score;
-            document.getElementById('player2Score').textContent = player2Score;
-
-            checkWinner(player1Score, player2Score);
+            else {
+                resetGame();
+            }
         }
 
         // function to check the winner of the game everytime the dice is rolled
@@ -106,14 +119,27 @@
             var winningScore = winScore;
 
             if (score1 >= winningScore) {
-                document.getElementById('player1Score').textContent = player1Score;
                 document.getElementById('winText').textContent = 'Player 1 Wins!!!!';
+                gameOver = true;
             } else if (score2 >= winningScore) {
-                document.getElementById('player2Score').textContent = player2Score;
                 document.getElementById('winText').textContent = 'Player 2 Wins!!!!';
+                gameOver = true;
             }
+        }
+
+        // function to reset the game
+        function resetGame() {
+            gameOver = false;
+            document.getElementById('player1Score').textContent = '0';
+            document.getElementById('player2Score').textContent = '0';
+            document.getElementById('winText').textContent = '';
+
+            // Reset dice images to initial state
+            document.getElementById('player1Dice').src = 'dice1.png';
+            document.getElementById('player2Dice').src = 'dice1.png';
         }
     </script>
     <!-- JS ends -->
 </body>
+
 </html>
