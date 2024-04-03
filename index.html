@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do or Dice</title>
+    <link rel="icon" type="image/x-icon" href="dice1.png">
+    <style>
+        body{
+            background: #161515;
+            color: #fff;
+        }
+        #diceContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .dice {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+        }
+        #rollButton {
+            background: #a3a3a3;
+            width: 100px;
+            color: #fff;
+            padding: 1%;
+            border-radius: 25px 25px;
+            border: none;
+            display: block;
+            margin: 20px auto;
+            cursor: pointer;
+        }
+        #rollButton:hover{
+            background: #ececec;
+            color: #161515;
+        }
+        #scores {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #winBoard{
+            text-align: center;
+            background: #a00000;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="diceContainer">
+        <img id="player1Dice" class="dice" src="dice1.png" alt="Player 1 Dice">
+        <img id="player2Dice" class="dice" src="dice1.png" alt="Player 2 Dice">
+    </div>
+    <button id="rollButton" onclick="rollDice()">Roll Dice</button>
+    <div id="scores">
+        <p>Player 1 Score: <span id="player1Score">0</span></p>
+        <p>Player 2 Score: <span id="player2Score">0</span></p>
+    </div>
+    <div id="winBoard">
+        <h3 id="winText"></h3>
+    </div>
+
+    <script>
+        const winScore = 5
+        function rollDice() {
+            var dice1Value = Math.floor(Math.random() * 6) + 1;
+            var dice2Value = Math.floor(Math.random() * 6) + 1;
+
+            document.getElementById('player1Dice').src = 'dice' + dice1Value + '.png';
+            document.getElementById('player2Dice').src = 'dice' + dice2Value + '.png';
+
+            var player1Score = parseInt(document.getElementById('player1Score').textContent);
+            var player2Score = parseInt(document.getElementById('player2Score').textContent);
+
+            var scoreDifference = Math.abs(dice1Value - dice2Value);
+
+            if (dice1Value > dice2Value) {
+                player1Score += scoreDifference;
+                player2Score -= scoreDifference;
+            } else if (dice2Value > dice1Value) {
+                player2Score += scoreDifference;
+                player1Score -= scoreDifference;
+            }
+
+            document.getElementById('player1Score').textContent = player1Score;
+            document.getElementById('player2Score').textContent = player2Score;
+
+            checkWinner(player1Score, player2Score);
+        }
+
+        function checkWinner(score1, score2) {
+            var winningScore = winScore;
+
+            if (score1 >= winningScore) {
+                document.getElementById('winText').textContent = 'Player 1 Wins!!!!';
+            } else if (score2 >= winningScore) {
+                document.getElementById('winText').textContent = 'Player 2 Wins!!!!';
+            }
+        }
+    </script>
+</body>
+</html>
