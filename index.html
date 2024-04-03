@@ -106,8 +106,10 @@
             var winningScore = winScore;
 
             if (score1 >= winningScore) {
+                document.getElementById('player1Score').textContent = player1Score;
                 document.getElementById('winText').textContent = 'Player 1 Wins!!!!';
             } else if (score2 >= winningScore) {
+                document.getElementById('player2Score').textContent = player2Score;
                 document.getElementById('winText').textContent = 'Player 2 Wins!!!!';
             }
         }
