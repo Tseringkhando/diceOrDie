@@ -1,3 +1,7 @@
+<!-- Dice v1.0.0.0
+    Submitted by: Tsering Khando Lama
+    C0916140
+ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Do or Dice</title>
     <link rel="icon" type="image/x-icon" href="dice1.png">
+    <!--CSS starts-->
     <style>
         body{
             background: #161515;
@@ -46,35 +51,42 @@
             color: #fff;
         }
     </style>
+    <!-- CSS ends -->
 </head>
 <body>
+    <!-- container with dice images -->
     <div id="diceContainer">
         <img id="player1Dice" class="dice" src="dice1.png" alt="Player 1 Dice">
         <img id="player2Dice" class="dice" src="dice1.png" alt="Player 2 Dice">
     </div>
+    <!-- roll button -->
     <button id="rollButton" onclick="rollDice()">Roll Dice</button>
+    <!-- section to display each player's score -->
     <div id="scores">
         <p>Player 1 Score: <span id="player1Score">0</span></p>
         <p>Player 2 Score: <span id="player2Score">0</span></p>
     </div>
+    <!-- section to declare winner -->
     <div id="winBoard">
         <h3 id="winText"></h3>
     </div>
 
+    <!-- JS starts -->
     <script>
-        const winScore = 5
+        
+        const winScore = 9; // the winning point would be 9 in this game
         function rollDice() {
             var dice1Value = Math.floor(Math.random() * 6) + 1;
             var dice2Value = Math.floor(Math.random() * 6) + 1;
-
+            // dice image will be displayed according to the dice value
             document.getElementById('player1Dice').src = 'dice' + dice1Value + '.png';
             document.getElementById('player2Dice').src = 'dice' + dice2Value + '.png';
 
             var player1Score = parseInt(document.getElementById('player1Score').textContent);
             var player2Score = parseInt(document.getElementById('player2Score').textContent);
 
+            // each player's score will be calculated
             var scoreDifference = Math.abs(dice1Value - dice2Value);
-
             if (dice1Value > dice2Value) {
                 player1Score += scoreDifference;
                 player2Score -= scoreDifference;
@@ -89,6 +101,7 @@
             checkWinner(player1Score, player2Score);
         }
 
+        // function to check the winner of the game everytime the dice is rolled
         function checkWinner(score1, score2) {
             var winningScore = winScore;
 
@@ -99,5 +112,6 @@
             }
         }
     </script>
+    <!-- JS ends -->
 </body>
 </html>
